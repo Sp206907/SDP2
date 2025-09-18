@@ -1,43 +1,48 @@
 package org.example;
 
-interface Computer{
+// Product interface
+interface Computer {
     void display();
 }
-abstract class GamingComputer implements Computer{
+// Concrete products
+class GamingComputer implements Computer {
     @Override
     public void display() {
-        System.out.println("Gaming");
+        System.out.println("Gaming Computer");
     }
 }
-abstract class ClassicComputer implements Computer{
+class ClassicComputer implements Computer {
     @Override
     public void display() {
-        System.out.println("Classic");
+        System.out.println("Classic Computer");
     }
 }
+// Factory interface
 interface ComputerFactory {
     Computer createComputer();
 }
-abstract class GamingComputerFactory implements ComputerFactory {
+// Concrete factories
+class GamingComputerFactory implements ComputerFactory {
     @Override
     public Computer createComputer() {
-        return new GamingComputer() {};
-
+        return new GamingComputer();
     }
 }
-abstract class ClassicComputerFactory implements ComputerFactory {
+class ClassicComputerFactory implements ComputerFactory {
     @Override
     public Computer createComputer() {
-        return new ClassicComputer() {};
+        return new ClassicComputer();
     }
 }
+// Client
 public class Main {
     public static void main(String[] args) {
-        ComputerFactory GamingComputerFactory = new GamingComputerFactory() {};
-        Computer GamingComputer = GamingComputerFactory.createComputer();
-        GamingComputer.display();
-        ComputerFactory ClassicComputerFactory = new ClassicComputerFactory() {};
-        Computer ClassicComputer = ClassicComputerFactory.createComputer();
-        ClassicComputer.display();
+        ComputerFactory gamingFactory = new GamingComputerFactory();
+        Computer gaming = gamingFactory.createComputer();
+        gaming.display();
+
+        ComputerFactory classicFactory = new ClassicComputerFactory();
+        Computer classic = classicFactory.createComputer();
+        classic.display();
     }
 }
