@@ -10,6 +10,8 @@ import GUIFactory.LightThemeFactory;
 import GUIFactory.DarkThemeFactory;
 import GUIFactory.Button;
 import GUIFactory.Label;
+import Adapter.ImperialComputer;
+import Adapter.ImperialToMetricAdapter;
 
 public class Main {
     private final ComputerFactory computerFactory;
@@ -44,6 +46,13 @@ public class Main {
         Main classicDarkApp = new Main(new ClassicComputerFactory(), new DarkThemeFactory());
         classicDarkApp.sellComputer();
         classicDarkApp.renderUI();
+
+        System.out.println("-------------------");
+
+        // Imperial system computer adapted to our Computer interface
+        ImperialComputer imperial = new ImperialComputer();
+        Computer adapted = new ImperialToMetricAdapter(imperial);
+        adapted.display();
     }
 }
 
