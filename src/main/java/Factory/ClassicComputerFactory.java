@@ -1,11 +1,24 @@
 package Factory;
 
-import Products.ClassicComputer;
 import Products.Computer;
+import Products.ClassicComputer;
+import Bridge.OS;
+import Bridge.LinuxOS;
 
+/**
+ * Creates ClassicComputer. Default OS = Linux.
+ * Also provides overloaded helper to create with a specific OS.
+ */
 public class ClassicComputerFactory implements ComputerFactory {
+
     @Override
     public Computer createComputer() {
-        return new ClassicComputer();
+        // default: Linux for classic
+        return new ClassicComputer(new LinuxOS());
+    }
+
+    // helper if you want to specify OS explicitly
+    public Computer createComputer(OS os) {
+        return new ClassicComputer(os);
     }
 }

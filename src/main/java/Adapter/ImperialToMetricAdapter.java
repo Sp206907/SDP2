@@ -1,6 +1,7 @@
 package Adapter;
 
 import Products.Computer;
+//Adapter
 
 public class ImperialToMetricAdapter implements Computer {
     private final ImperialComputer imperialComputer;
