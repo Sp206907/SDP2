@@ -19,6 +19,10 @@ import Products.ClassicComputer;
 import Bridge.WindowsOS;
 import Bridge.LinuxOS;
 
+import Facade.ComputerSetupFacade;
+import Strategy.GamingPerformance;
+import Strategy.OfficePerformance;
+
 public class Main {
     private final ComputerFactory computerFactory;
     private final GUIFactory guiFactory;
@@ -63,12 +67,34 @@ public class Main {
         System.out.println("-------------------");
 
         // Example: directly creating a GamingComputer with explicit OS (Bridge)
-        GamingComputer gamingPC = new GamingComputer(new WindowsOS());
+        GamingComputer gamingPC = new GamingComputer(new WindowsOS(),new GamingPerformance());
         gamingPC.display();
 
         System.out.println("-------------------");
 
-        ClassicComputer classicPC = new ClassicComputer(new LinuxOS());
+        ClassicComputer classicPC = new ClassicComputer(new LinuxOS(), new OfficePerformance());
         classicPC.display();
+        ComputerSetupFacade facade = new ComputerSetupFacade();
+
+        System.out.println("=== Simple Facade Demo ===");
+        facade.setupGamingComputerWithWindows();
+
+        System.out.println("-------------------");
+        facade.setupClassicComputerWithLinux();
+
+        System.out.println("-------------------");
+        facade.setupGamingComputerWithWindows();
+
+        System.out.println("-------------------");
+        facade.setupClassicComputerWithWindows();
+
+        System.out.println("=== Strategy Pattern Demo ===");
+        facade.setupGamingComputerWithWindows();
+
+        System.out.println("-------------------");
+        facade.setupClassicComputerWithLinux();
+
+        System.out.println("-------------------");
+        facade.setupProgrammingComputerWithLinux();
     }
 }

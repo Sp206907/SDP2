@@ -4,6 +4,9 @@ import Products.Computer;
 import Products.ClassicComputer;
 import Bridge.OS;
 import Bridge.LinuxOS;
+import Strategy.OfficePerformance;
+import Strategy.PerformanceStrategy;
+
 
 /**
  * Creates ClassicComputer. Default OS = Linux.
@@ -14,11 +17,11 @@ public class ClassicComputerFactory implements ComputerFactory {
     @Override
     public Computer createComputer() {
         // default: Linux for classic
-        return new ClassicComputer(new LinuxOS());
+        return new ClassicComputer(new LinuxOS(),new OfficePerformance());
     }
 
     // helper if you want to specify OS explicitly
-    public Computer createComputer(OS os) {
-        return new ClassicComputer(os);
+    public Computer createComputer(OS os, PerformanceStrategy performanceStrategy) {
+        return new ClassicComputer(os, performanceStrategy);
     }
 }

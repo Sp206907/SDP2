@@ -1,12 +1,18 @@
 package Products;
 
 import Bridge.OS;
+import Strategy.PerformanceStrategy;
 
 public class ClassicComputer implements Computer {
     private final OS os;
+    private PerformanceStrategy performanceStrategy;
 
-    public ClassicComputer(OS os) {
+
+
+    public ClassicComputer(OS os, PerformanceStrategy performanceStrategy) {
         this.os = os;
+        this.performanceStrategy = performanceStrategy;
+
     }
 
     @Override
@@ -15,5 +21,7 @@ public class ClassicComputer implements Computer {
         if (os != null) {
             os.installOS();
         }
+        performanceStrategy.performTask();
+
     }
 }
