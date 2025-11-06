@@ -1,6 +1,7 @@
 package Adapter;
 
 import Products.Computer;
+import Visitor.ComputerVisitor;
 //Adapter
 
 public class ImperialToMetricAdapter implements Computer {
@@ -15,6 +16,11 @@ public class ImperialToMetricAdapter implements Computer {
         // Adapts the Imperial system to our Computer interface
         System.out.print("Adapted -> ");
         imperialComputer.showSpecsInImperial();
+    }
+
+    @Override
+    public void accept(ComputerVisitor visitor) {
+
     }
 }
 

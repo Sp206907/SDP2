@@ -2,6 +2,7 @@ package Products;
 
 import Bridge.OS;
 import Strategy.PerformanceStrategy;
+import Visitor.ComputerVisitor;
 
 public class GamingComputer implements Computer {
     private final OS os;
@@ -10,9 +11,13 @@ public class GamingComputer implements Computer {
     public GamingComputer(OS os, PerformanceStrategy performanceStrategy) {
         this.os = os;
         this.performanceStrategy = performanceStrategy;
-        
+
     }
 
+    @Override
+    public void accept(ComputerVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public void display() {
         System.out.println("High-performance Gaming Computer");

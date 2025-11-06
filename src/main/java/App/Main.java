@@ -3,6 +3,9 @@ package App;
 import Factory.ComputerFactory;
 import Factory.GamingComputerFactory;
 import Factory.ClassicComputerFactory;
+import Observer.ConcreteObservers.LoggerObserver;
+import Observer.ConcreteObservers.SystemMonitorObserver;
+import Observer.ConcreteObservers.UserObserver;
 import Products.Computer;
 
 import GUIFactory.GUIFactory;
@@ -22,6 +25,8 @@ import Bridge.LinuxOS;
 import Facade.ComputerSetupFacade;
 import Strategy.GamingPerformance;
 import Strategy.OfficePerformance;
+import Observer.*;
+import Visitor.*;
 
 public class Main {
     private final ComputerFactory computerFactory;
@@ -45,56 +50,34 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // Gaming computer + Light UI (uses factory default OS = Windows)
-        Main gamingLightApp = new Main(new GamingComputerFactory(), new LightThemeFactory());
-        gamingLightApp.sellComputer();
-        gamingLightApp.renderUI();
-
-        System.out.println("-------------------");
-
-        // Classic computer + Dark UI (factory default OS = Linux)
-        Main classicDarkApp = new Main(new ClassicComputerFactory(), new DarkThemeFactory());
-        classicDarkApp.sellComputer();
-        classicDarkApp.renderUI();
-
-        System.out.println("-------------------");
-
-        // Adapter example: adapt an ImperialComputer to the Computer interface
-        ImperialComputer imperial = new ImperialComputer();
-        Computer adapted = new ImperialToMetricAdapter(imperial);
-        adapted.display();
-
-        System.out.println("-------------------");
-
-        // Example: directly creating a GamingComputer with explicit OS (Bridge)
-        GamingComputer gamingPC = new GamingComputer(new WindowsOS(),new GamingPerformance());
-        gamingPC.display();
-
-        System.out.println("-------------------");
-
-        ClassicComputer classicPC = new ClassicComputer(new LinuxOS(), new OfficePerformance());
-        classicPC.display();
         ComputerSetupFacade facade = new ComputerSetupFacade();
+        Computer gaming = new GamingComputer(new LinuxOS(), new GamingPerformance());
+        Computer classic = new ClassicComputer(new WindowsOS(), new OfficePerformance());
 
-        System.out.println("=== Simple Facade Demo ===");
+        // Create observers
+        UserObserver user1 = new UserObserver("Ernar");
+        SystemMonitorObserver monitor = new SystemMonitorObserver();
+        LoggerObserver logger = new LoggerObserver();
+
+        // Register observers
+        facade.addObserver(user1);
+        facade.addObserver(monitor);
+        facade.addObserver(logger);
+
+        // Trigger events
         facade.setupGamingComputerWithWindows();
-
-        System.out.println("-------------------");
+        System.out.println("------------------");
         facade.setupClassicComputerWithLinux();
 
-        System.out.println("-------------------");
-        facade.setupGamingComputerWithWindows();
+        ComputerVisitor performance = new PerformanceVisitor();
+        ComputerVisitor price = new PriceVisitor();
 
-        System.out.println("-------------------");
-        facade.setupClassicComputerWithWindows();
+        System.out.println("--- Performance Tests ---");
+        gaming.accept(performance);
+        classic.accept(performance);
 
-        System.out.println("=== Strategy Pattern Demo ===");
-        facade.setupGamingComputerWithWindows();
-
-        System.out.println("-------------------");
-        facade.setupClassicComputerWithLinux();
-
-        System.out.println("-------------------");
-        facade.setupProgrammingComputerWithLinux();
+        System.out.println("\n--- Price Evaluation ---");
+        gaming.accept(price);
+        classic.accept(price);
     }
 }

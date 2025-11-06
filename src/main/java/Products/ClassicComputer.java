@@ -2,6 +2,7 @@ package Products;
 
 import Bridge.OS;
 import Strategy.PerformanceStrategy;
+import Visitor.ComputerVisitor;
 
 public class ClassicComputer implements Computer {
     private final OS os;
@@ -15,6 +16,10 @@ public class ClassicComputer implements Computer {
 
     }
 
+    @Override
+    public void accept(ComputerVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public void display() {
         System.out.println("Affordable Classic Computer");
